@@ -84,8 +84,8 @@ class PaymentController extends Controller
             if ($request->hasFile('bukti_pembayaran') && $request->file('bukti_pembayaran')->isValid())
             {
                 $filename = $request->file('bukti_pembayaran')->getClientOriginalName();
-                $filepath = $request->bukti_pembayaran->storeAs('public/bukti_pembayaran', $filename);
-                $payment->bukti_pembayaran = $filepath;
+                $request->bukti_pembayaran->move(public_path('bukti_pembayaran'), $filename);
+                $payment->bukti_pembayaran = $filename;
             }
         }
 

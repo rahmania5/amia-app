@@ -20,7 +20,7 @@ class CreateProductionDetailsTable extends Migration
             $table->foreignId('goods_id');
             $table->foreign('goods_id')->references('id')->on('goods');
             $table->integer('qty_barang_jadi');
-            $table->integer('qty_barang_rusak');
+            $table->integer('qty_barang_rusak')->default(0);
             $table->timestamps();
         });
     }

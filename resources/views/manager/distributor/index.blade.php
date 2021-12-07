@@ -36,7 +36,7 @@
                 </div>
             </div>
           </div>
-          {{-- LIST OF SALES TRANSACTIONS --}}
+          {{-- LIST OF DISTRIBUTORS --}}
           <div class="table-responsive">
             <table class="table table-hover">
                 <thead class="text-primary">
@@ -57,7 +57,7 @@
                         <td></td>
                         <td></td>
                         <td>
-                          <a href="distributor/{{$p->id}}"><button type="button" class="btn btn-outline-info"><span class="fas fa-eye"></span></button></a>
+                          <a href="distributor/show/{{$p->id}}"><button type="button" class="btn btn-outline-info"><span class="fas fa-eye"></span></button></a>
                         </td>
                     </tr>
                     @foreach ($p->city as $c)
@@ -79,6 +79,13 @@
                     @endforeach
                     @endforeach
                     @endforeach
+                    <tr>
+                        <td colspan="3">Total Distributor</td>
+                        <td class="text-center">{{ $distributors->count() }}</td>
+                        <td>
+                          <a href="{{ route('manager.distributor.show', ['action'=>'show']) }}"><button type="button" class="btn btn-outline-info"><span class="fas fa-eye"></span></button></a>
+                        </td>
+                    </tr>
                 </tbody>
             </table>    
           </div>

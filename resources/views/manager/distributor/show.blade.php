@@ -23,9 +23,22 @@
           <div class="card-header">
             <div class="row">
               <div class="col-6">
-                <span class="float-left"><h5 class="card-title">{{ __('Data Distributor Provinsi '. $province->nama_provinsi) }}</h5>
+                <span class="float-left">
+                  @if (isset($province))
+                  <h5 class="card-title">{{ __('Data Distributor Provinsi '. $province->nama_provinsi) }}</h5>
+                  @else
+                  <h5 class="card-title">{{ __('Data Distributor AMIA') }}</h5>
+                  @endif
               </div>
-              <div class="col-6"> </div>
+              <div class="col-6">
+              @if (isset($province))
+                <a href="{{ route('manager.distributor.show', ['action'=>'printLaporan', 'provinceId'=>$province->id]) }}" target="blank"><button type="button" class="btn btn-primary btn-round float-right">
+                <span class="fas fa-print"></span> Print</button></a>
+              @else
+                <a href="{{ route('manager.distributor.show', ['action'=>'printLaporan']) }}" target="blank"><button type="button" class="btn btn-primary btn-round float-right">
+                <span class="fas fa-print"></span> Print</button></a>
+              @endif
+              </div>
             </div>
           </div>
           <div class="card-body">
@@ -33,6 +46,7 @@
             <div class="col-6"></div>
             <div class="col-6">
                 <div class="float-right">
+                {{ $distributors->links() }}
                 </div>
             </div>
           </div>
@@ -43,7 +57,10 @@
                     <tr>
                         <th scope="col">Distributor</th>
                         <th scope="col">NIK</th>
-                        <th scope="col">Kabupaten/Kota</th>
+                        @if (!isset($province))
+                        <th>Provinsi</th>
+                        @endif
+                        <th scope="col">Kab/Kota</th>
                         <th scope="col">Kecamatan</th>
                         <th scope="col">Alamat</th>
                         <th scope="col">No. Telp</th>
@@ -56,7 +73,10 @@
                         <tr>
                             <td>{{ $d->user->name }}</td>
                             <td>{{ $d->nik }}</td>
-                            <td>{{ $d->district->city->nama_kab_kota }} </td>
+                            @if (!isset($province))
+                            <td>{{ $d->district->city->province->nama_provinsi }}</td>
+                            @endif
+                            <td>{{ $d->district->city->nama_kab_kota }}</td>
                             <td>{{ $d->district->nama_kecamatan }}</td>
                             <td>{{ $d->alamat }}</td>
                             <td>{{ $d->no_telepon }}</td>
@@ -68,7 +88,7 @@
                         </tr>
                     @empty
                         <tr>
-                            <td colspan="4" class="text-center">Belum ada data penjualan</td>
+                            <td colspan="7" class="text-center">Belum ada data distributor</td>
                         </tr>
                     @endforelse
                 </tbody>

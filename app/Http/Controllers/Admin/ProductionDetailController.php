@@ -10,11 +10,6 @@ use Illuminate\Http\Request;
 
 class ProductionDetailController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
     public function index($id)
     {
         $production = Production::findOrFail($id);
@@ -32,15 +27,18 @@ class ProductionDetailController extends Controller
         $request->validate([
             'production_id' => 'required',
             'goods_id' => 'required',
-            'qty_barang_jadi' => 'required',
-            'qty_barang_rusak' => 'required'
+            'qty_barang_jadi' => 'required'
         ]);        
 
         $productionDetail = new ProductionDetail;
         $productionDetail->production_id = $request->production_id;
         $productionDetail->goods_id = $request->goods_id;
         $productionDetail->qty_barang_jadi = $request->qty_barang_jadi;
-        $productionDetail->qty_barang_rusak = $request->qty_barang_rusak;
+        if ($request->qty_barang_rusak) {
+            $productionDetail->qty_barang_rusak = $request->qty_barang_rusak;
+        } else {
+            $productionDetail->qty_barang_rusak = 0;
+        }
 
         if ($productionDetail->save()) {
             return redirect()->route('production.show', [$productionDetail->production_id])

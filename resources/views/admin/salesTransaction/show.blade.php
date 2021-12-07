@@ -55,6 +55,14 @@
                             {{ Form::text('jenis_pembayaran', $salesTransaction->jenis_pembayaran, ['class' => 'form-control-plaintext', 'readonly' => 'readonly']) }}
                             </div>
                         </div>
+                        @if ($salesTransaction->status == 'Belum dipesan')
+                        <div class="form-group row">
+                            <p class="col-sm-3 col-form-label">Sisa Uang Return</p>
+                            <div class="col-sm-9">
+                            {{ Form::text('sisa_uang_return', $salesTransaction->distributor->sisa_uang_return, ['class' => 'form-control-plaintext', 'readonly' => 'readonly']) }}
+                            </div>
+                        </div>
+                        @endif
                         <div class="form-group row">
                             <p class="col-sm-3 col-form-label">Total Transaksi</p>
                             <div class="col-sm-9">

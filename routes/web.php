@@ -34,11 +34,12 @@ Route::group(['middleware' => 'auth'], function () {
 Route::group(['middleware' => ['auth', 'manager'], 'prefix' => 'manager'], function () {
 	// sales transaction report
 	Route::get('sales_transaction', 'Manager\SalesReportController@index')->name('manager.sales.index');  
-	Route::get('sales_transaction/{year}/{month}', 'Manager\SalesReportController@show')->name('manager.sales.show');
+	Route::post('sales_transaction', 'Manager\SalesReportController@store')->name('manager.sales.store');  
+	Route::get('sales_transaction/{year}/{month}/{action}', 'Manager\SalesReportController@show')->name('manager.sales.show');
 	
 	// distributor report
-	Route::get('distributor', 'Manager\DistributorReportController@index')->name('manager.distributor.index');  
-	Route::get('distributor/{provinceId}', 'Manager\DistributorReportController@show')->name('manager.distributor.show');
+	Route::get('distributors', 'Manager\DistributorReportController@index')->name('manager.distributor.index');  
+	Route::get('distributor/{action}/{provinceId?}', 'Manager\DistributorReportController@show')->name('manager.distributor.show');
 	
 	// loan report
 	Route::get('loan', 'Manager\LoanReportController@index')->name('manager.loan.index');

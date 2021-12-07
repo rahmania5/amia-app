@@ -41,7 +41,7 @@ class ProductReturnController extends Controller
         $salesTransaction = SalesTransaction::findOrFail($request->sales_transaction_id);
         
         $return = new ProductReturn;
-        $return->total_return = $salesTransaction->total_transaksi;
+        $return->total_return = 0;
         $return->status_return = 'Belum diajukan';
 
         $salesTransactionDetails = $salesTransaction->sales_transaction_detail()->get();
@@ -53,8 +53,10 @@ class ProductReturnController extends Controller
                 $returnDetail->sales_transaction_detail_id = $std->id;
                 $returnDetail->qty_return = $std->qty;
                 $returnDetail->alasan_return = 'Rusak';
+                $return->total_return = $return->total_return + ($std->qty * $std->goods->harga_barang);
                 $returnDetail->save();
             }
+            $return->save();
         }
 
         return redirect()->route('admin.return.show', [$return->id])

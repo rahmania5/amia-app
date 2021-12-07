@@ -163,6 +163,11 @@
               <p class="description">
                   {{ auth()->user()->email }}
               </p>
+              @if (auth()->user()->role == 'Distributor')
+              <p class="text-primary">
+                  Sisa Uang Return : {{ auth()->user()->distributor->sisa_uang_return }}
+              </p>
+              @endif
             </div>
           </div>
           @if (auth()->user()->role == 'Distributor' && $countLoan > 0)

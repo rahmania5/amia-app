@@ -25,7 +25,10 @@
               <div class="col-6">
                 <span class="float-left"><h5 class="card-title">{{ __('Data Riwayat Penjualan '. $monthName .' '. $year) }}</h5>
               </div>
-              <div class="col-6"> </div>
+              <div class="col-6">
+                <a href="{{ route('manager.sales.show', [$year, $monthName, 'printLaporan']) }}" target="blank"><button type="button" class="btn btn-primary btn-round float-right">
+                <span class="fas fa-print"></span> Print</button></a>
+              </div>
             </div>
           </div>
           <div class="card-body">
