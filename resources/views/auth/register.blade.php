@@ -17,7 +17,7 @@
                 @csrf
               <div class="row">
                 <!--Begin input name -->
-                <div class="col-md-5 ml-auto mr-auto input-group {{ $errors->has('name') ? ' has-danger' : '' }}">
+                <div class="col-md-5 ml-auto mr-auto input-group">
                   <div class="input-group-prepend">
                     <div class="input-group-text">
                       <i class="now-ui-icons users_circle-08"></i>
@@ -31,7 +31,7 @@
                   @endif
                 </div>
                 <!--Begin input nik -->
-                <div class="col-md-5 ml-auto mr-auto input-group {{ $errors->has('nik') ? ' has-danger' : '' }}">
+                <div class="col-md-5 ml-auto mr-auto input-group">
                   <div class="input-group-prepend">
                     <div class="input-group-text">
                       <i class="now-ui-icons business_badge"></i>
@@ -74,7 +74,7 @@
               </div>  
               <div class="row">
                 <!--Begin input district -->
-                <div class="col-md-5 ml-auto mr-auto input-group {{ $errors->has('district_id') ? ' has-danger' : '' }}">
+                <div class="col-md-5 ml-auto mr-auto input-group">
                   <div class="input-group-prepend">
                     <div class="input-group-text">
                       <i class="now-ui-icons location_pin"></i>
@@ -90,7 +90,7 @@
                   @endif
                 </div>
                 <!--Begin input address -->
-                <div class="col-md-5 ml-auto mr-auto input-group {{ $errors->has('alamat') ? ' has-danger' : '' }}">
+                <div class="col-md-5 ml-auto mr-auto input-group">
                   <div class="input-group-prepend">
                     <div class="input-group-text">
                       <i class="now-ui-icons shopping_shop"></i>
@@ -106,7 +106,7 @@
               </div>
               <div class="row">
                 <!--Begin input phone number -->
-                <div class="col-md-5 ml-auto mr-auto input-group {{ $errors->has('no_telepon') ? ' has-danger' : '' }}">
+                <div class="col-md-5 ml-auto mr-auto input-group">
                   <div class="input-group-prepend">
                     <div class="input-group-text">
                       <i class="now-ui-icons tech_mobile"></i>
@@ -120,7 +120,7 @@
                   @endif
                 </div>
                 <!--Begin input email -->
-                <div class="col-md-5 ml-auto mr-auto input-group {{ $errors->has('email') ? ' has-danger' : '' }}">
+                <div class="col-md-5 ml-auto mr-auto input-group">
                   <div class="input-group-prepend">
                     <div class="input-group-text">
                       <i class="now-ui-icons ui-1_email-85"></i>
@@ -136,7 +136,7 @@
               </div>
               <div class="row">
                 <!--Begin input password -->
-                <div class="col-md-5 ml-auto mr-auto input-group {{ $errors->has('password') ? ' has-danger' : '' }}">
+                <div class="col-md-5 ml-auto mr-auto input-group">
                   <div class="input-group-prepend">
                     <div class="input-group-text">
                       <i class="now-ui-icons objects_key-25"></i>

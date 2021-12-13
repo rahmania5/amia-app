@@ -110,9 +110,8 @@ Route::group(['middleware' => ['auth', 'admin'], 'prefix' => 'admin'], function 
 	Route::get('return', 'Admin\ProductReturnController@index')->name('admin.return.index');
 	Route::get('return/{id}/create', 'Admin\ProductReturnController@create')->name('admin.return.create');
 	Route::post('return', 'Admin\ProductReturnController@store')->name('admin.return.store');
-	Route::get('return/{id}', 'Admin\ProductReturnDetailController@index')->name('admin.return.show');
-	Route::get('return/{id}/editItem', 'Admin\ProductReturnDetailController@edit')->name('admin.return.editItem');
-	Route::patch('return/{id}/updateItem', 'Admin\ProductReturnDetailController@update')->name('admin.return.updateItem');
+	Route::get('return/{id}/{salesTransactionId}', 'Admin\ProductReturnDetailController@index')->name('admin.return.show');
+	Route::post('return/add', 'Admin\ProductReturnDetailController@store')->name('admin.return.addItem');
 	Route::delete('return/{id}/remove', 'Admin\ProductReturnDetailController@destroy')->name('admin.return.removeItem');
 	Route::post('return/{id}/submit_return', 'Admin\ProductReturnDetailController@submitReturn')->name('admin.return.submit');
 	Route::post('return/{id}/decline_return', 'Admin\ProductReturnDetailController@declineReturn')->name('admin.return.decline');
@@ -141,6 +140,15 @@ Route::group(['middleware' => ['auth', 'admin'], 'prefix' => 'admin'], function 
 	Route::get('vehicle/{id}/edit', 'Admin\VehicleController@edit')->name('vehicle.edit');
 	Route::patch('vehicle/{id}', 'Admin\VehicleController@update')->name('vehicle.update');
 	Route::delete('vehicle/{id}', 'Admin\VehicleController@destroy')->name('vehicle.destroy');
+
+	// sales transaction report
+	Route::get('sales_report', 'Admin\SalesReportController@index')->name('admin.sales.index');  
+	Route::post('sales_report', 'Admin\SalesReportController@store')->name('admin.sales.store');  
+	Route::get('sales_report/{year}/{month}/{action}', 'Admin\SalesReportController@show')->name('admin.sales.show');
+	
+	// distributor report
+	Route::get('distributors', 'Admin\DistributorReportController@index')->name('admin.distributor.index');  
+	Route::get('distributor/{action}/{provinceId?}', 'Admin\DistributorReportController@show')->name('admin.distributor.show');
 });
 
 // distributor protected routes
@@ -165,9 +173,8 @@ Route::group(['middleware' => ['auth', 'distributor'], 'prefix' => 'distributor'
 	Route::get('return', 'Distributor\ProductReturnController@index')->name('distributor.return.index');
 	Route::get('return/{id}/create', 'Distributor\ProductReturnController@create')->name('distributor.return.create');
 	Route::post('return', 'Distributor\ProductReturnController@store')->name('distributor.return.store');
-	Route::get('return/{id}', 'Distributor\ProductReturnDetailController@index')->name('distributor.return.show');
-	Route::get('return/{id}/editItem', 'Distributor\ProductReturnDetailController@edit')->name('distributor.return.editItem');
-	Route::patch('return/{id}/updateItem', 'Distributor\ProductReturnDetailController@update')->name('distributor.return.updateItem');
+	Route::get('return/{id}/{salesTransactionId}', 'Distributor\ProductReturnDetailController@index')->name('distributor.return.show');
+	Route::post('return/add', 'Distributor\ProductReturnDetailController@store')->name('distributor.return.addItem');
 	Route::delete('return/{id}/remove', 'Distributor\ProductReturnDetailController@destroy')->name('distributor.return.removeItem');
 	Route::post('return/{id}/submit_return', 'Distributor\ProductReturnDetailController@submitReturn')->name('distributor.return.submit');
 	

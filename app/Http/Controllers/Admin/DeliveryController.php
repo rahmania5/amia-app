@@ -12,10 +12,14 @@ use Illuminate\Http\Request;
 
 class DeliveryController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        $deliveries = Delivery::orderBy('tanggal_pengantaran', 'DESC')
-            ->latest('id')->paginate(25);
+        $deliveries = Delivery::when($request->keyword, function ($query) use ($request) {
+            $query
+            ->where('tanggal_pengantaran', 'like', "%{$request->keyword}%");
+        })->orderBy('tanggal_pengantaran', 'DESC')->latest('id')->paginate(25);
+    
+        $deliveries->appends($request->only('keyword'));
 
         return view('admin.delivery.index', compact('deliveries'));
     }

@@ -46,7 +46,6 @@
                         <div class="col-10">
                             <input type="submit" value="Tambah Barang" class="btn btn-primary btn-round float-right mb-3"/>
                         </div>
-                    </div>
                     {{ Form::close() }}
 
                     <div class="row">

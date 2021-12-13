@@ -8,7 +8,7 @@
         <img src="{{ asset('assets') }}/img/favicon.png">
       </div>
     </a>
-    <a href="https://www.facebook.com/CV-Ratna-Juwita-234347146739771" class="simple-text logo-normal" target="blank">
+    <a href="home" class="simple-text logo-normal">
       {{ __('SI DISTRIBUSI AMIA') }}
     </a>
   </div>

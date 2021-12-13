@@ -45,6 +45,7 @@ class PaymentController extends Controller
         $payment->metode_pembayaran = $request->metode_pembayaran;
         $payment->tanggal_pembayaran = $request->tanggal_pembayaran;
         $payment->jumlah_pembayaran = $request->jumlah_pembayaran;
+        $payment->status_pembayaran = 'Belum dikonfirmasi';
         $payment->keterangan = $request->keterangan;
 
         if ($request->metode_pembayaran == 'Transfer') {

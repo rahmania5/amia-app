@@ -33,34 +33,18 @@ class ProductReturnController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'total_return' => 'required',
             'status_return' => 'required',
             'sales_transaction_id' => 'required'
         ]);        
-
-        $salesTransaction = SalesTransaction::findOrFail($request->sales_transaction_id);
         
         $return = new ProductReturn;
         $return->total_return = 0;
         $return->status_return = 'Belum diajukan';
 
-        $salesTransactionDetails = $salesTransaction->sales_transaction_detail()->get();
+        $return->save();
 
-        if ($return->save()) {
-            foreach ($salesTransactionDetails as $std) {
-                $returnDetail = new ProductReturnDetail;
-                $returnDetail->product_return_id = $return->id;
-                $returnDetail->sales_transaction_detail_id = $std->id;
-                $returnDetail->qty_return = $std->qty;
-                $returnDetail->alasan_return = 'Rusak';
-                $return->total_return = $return->total_return + ($std->qty * $std->goods->harga_barang);
-                $returnDetail->save();
-            }
-            $return->save();
-        }
-
-        return redirect()->route('distributor.return.show', [$return->id])
-            ->with('success', 'Data created successfully. Please modify items that will be returned first.');
+        return redirect()->route('distributor.return.show', [$return->id, $request->sales_transaction_id])
+            ->with('success', 'Data created successfully. Please add items that will be returned first.');
     }
 
     public function show(ProductReturn $productReturn)

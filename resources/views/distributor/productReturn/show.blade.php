@@ -19,14 +19,16 @@
                         </div>
                     </div>
                     
+                    {{ Form::open(['route' => ['distributor.return.addItem'], 'method' => 'post']) }}
+                    {{ csrf_field() }}
                     <div class="card-body">
                     {{ Form::model($return, []) }}
 
                         <div class="form-group row">
                             <p class="col-sm-3 col-form-label">ID Transaksi</p>
                             <div class="col-sm-9">
-                            <a href="{{ route('distributor.sales_transaction.show', [$salesTransactionId, 'show']) }}">
-                            {{ Form::text('sales_transaction_id', $salesTransactionId, ['class' => 'form-control-plaintext', 'readonly' => 'readonly']) }}
+                            <a href="{{ route('distributor.sales_transaction.show', [$salesTransaction->id, 'show']) }}">
+                            {{ Form::text('sales_transaction_id', $salesTransaction->id, ['class' => 'form-control-plaintext', 'readonly' => 'readonly']) }}
                             </a>
                             </div>
                         </div>
@@ -42,7 +44,6 @@
                             {{ Form::text('status_return', null, ['class' => 'form-control-plaintext', 'readonly' => 'readonly']) }}
                             </div>
                         </div>
-                    {{ Form::close() }}
                     </div>
                 </div>
                 <div class="card">
@@ -59,7 +60,13 @@
                         {{ session('error') }}
                         </div>
                     @endif
-                   
+                    @if ($return->status_return == "Belum diajukan")
+                    @include('distributor.productReturn.addItem_form')                
+                        <div class="col-10">
+                            <input type="submit" value="Tambah Barang" class="btn btn-primary btn-round float-right mb-3"/>
+                        </div>
+                    @endif
+                    {{ Form::close() }}
                         <div class="row">
                             <div class="col-6"></div>
                             <div class="col-6">
@@ -97,7 +104,6 @@
                                             @if ($return->status_return == "Belum diajukan")
                                             <td>
                                                 <form method="POST" action="{{ route('distributor.return.removeItem', $rd->id) }}">
-                                                <a href="{{ route('distributor.return.editItem', $rd->id) }}"><button type="button" class="btn btn-outline-warning"><span class="fas fa-edit"></span></button></a>
                                                 {{ csrf_field() }}
                                                 {{ method_field('DELETE') }}
                                                 <button type="submit" class="btn btn-outline-danger" onclick="return confirmDelete()"><span class="fas fa-trash"></span></button>       

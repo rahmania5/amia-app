@@ -32,14 +32,31 @@
             </div>
           </div>
           <div class="card-body">
-          <div class="row">
-            <div class="col-6"></div>
-            <div class="col-6">
-                <div class="float-right">
-                {{ $salesTransactions->links() }}
+            <div class="row">
+              <div class="col-9"></div>
+              <div class="col-3">
+              <form method="GET" action="{{ url()->current() }}">
+                <div class="input-group no-border">
+                  <input name="keyword" type="text" value="{{ request('keyword') }}" class="form-control" placeholder="Search...">
+                  <div class="input-group-append">
+                    <div class="input-group-text" style="padding: 5px 5px 5px 0px;">
+                      <button class="btn btn-fab btn-icon btn-round btn-primary" style="margin: 0px;" type="submit">
+                      <i class="now-ui-icons ui-1_zoom-bold"></i>
+                      </button>
+                    </div>
+                  </div>
                 </div>
+              </form>
+              </div>
             </div>
-          </div>
+            <div class="row">
+              <div class="col-6"></div>
+              <div class="col-6">
+                  <div class="float-right">
+                  {{ $salesTransactions->links() }}
+                  </div>
+              </div>
+            </div>
           {{-- LIST OF SALES TRANSACTIONS --}}
           <div class="table-responsive">
             <table class="table table-hover">

@@ -9,11 +9,20 @@ use Illuminate\Http\Request;
 
 class SalesTransactionController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        $salesTransactions = SalesTransaction::orderBy('tanggal_transaksi', 'DESC')
-            ->latest('id')->paginate(25);
+        $salesTransactions = SalesTransaction::when($request->keyword, function ($query) use ($request) {
+            $query
+            ->where('tanggal_transaksi', 'like', "%{$request->keyword}%")
+            ->orWhere('name', 'like', "%{$request->keyword}%")
+            ->orWhere('status', 'like', "%{$request->keyword}%");
+        })->join('distributors', 'distributors.id', '=', 'sales_transactions.distributor_id')
+        ->join('users', 'users.id', '=', 'distributors.user_id')
+        ->select('sales_transactions.*', 'users.name')
+        ->orderBy('tanggal_transaksi', 'DESC')->latest('sales_transactions.id')->paginate(25);
 
+        $salesTransactions->appends($request->only('keyword'));
+        
         return view('admin.salesTransaction.index', compact('salesTransactions'));
     }
 

@@ -8,7 +8,7 @@
         <img src="{{ asset('assets') }}/img/favicon.png">
       </div>
     </a>
-    <a href="https://www.facebook.com/CV-Ratna-Juwita-234347146739771" class="simple-text logo-normal" target="blank">
+    <a href="home" class="simple-text logo-normal">
       {{ __('SI DISTRIBUSI AMIA') }}
     </a>
   </div>
@@ -47,7 +47,7 @@
       </li>
       <li class="@if ($activePage == 'sales_transaction') active @endif">
         <a href="{{ route('admin.sales_transaction.index') }}">
-          <i class="now-ui-icons education_paper"></i>
+          <i class="now-ui-icons shopping_cart-simple"></i>
           <p>{{ __('Pengelolaan Transaksi') }}</p>
         </a>
       </li>
@@ -57,19 +57,13 @@
           <p>{{ __('Pengelolaan Pembayaran') }}</p>
         </a>
       </li>
-      <li class = "@if ($activePage == 'loan') active @endif">
-        <a href="{{ route('admin.loan.index') }}">
-          <i class="now-ui-icons files_paper"></i>
-          <p>{{ __('Pengelolaan Piutang') }}</p>
-        </a>
-      </li>
       <li class = "@if ($activePage == 'deliveries') active @endif">
         <a href="{{ route('delivery.index') }}">
           <i class="now-ui-icons shopping_delivery-fast"></i>
           <p>{{ __('Pengelolaan Pengantaran') }}</p>
         </a>
       </li>
-      <li class = "@if ($activePage == 'returns') active @endif">
+      <li class = "@if ($activePage == 'return') active @endif">
         <a href="{{ route('admin.return.index') }}">
           <i class="now-ui-icons shopping_box"></i>
           <p>{{ __('Pengelolaan Return') }}</p>
@@ -97,6 +91,24 @@
         <a href="{{ route('vehicle.index') }}">
           <i class="now-ui-icons transportation_bus-front-12"></i>
           <p>{{ __('Pengelolaan Kendaraan') }}</p>
+        </a>
+      </li>
+      <li class = "@if ($activePage == 'sales') active @endif">
+        <a href="{{ route('admin.sales.index') }}">
+          <i class="now-ui-icons business_chart-bar-32"></i>
+          <p>{{ __('Laporan Penjualan') }}</p>
+        </a>
+      </li>
+      <li class="@if ($activePage == 'distributor') active @endif">
+        <a href="{{ route('admin.distributor.index') }}">
+          <i class="now-ui-icons shopping_shop"></i>
+          <p> {{ __("Laporan Distributor") }} </p>
+          </a>
+      </li>
+      <li class = "@if ($activePage == 'loan') active @endif">
+        <a href="{{ route('admin.loan.index') }}">
+          <i class="now-ui-icons files_paper"></i>
+          <p>{{ __('Laporan Piutang') }}</p>
         </a>
       </li>
     </ul>

@@ -8,7 +8,7 @@
         <img src="{{ asset('assets') }}/img/favicon.png">
       </div>
     </a>
-    <a href="https://www.facebook.com/CV-Ratna-Juwita-234347146739771" class="simple-text logo-normal" target="blank">
+    <a href="home" class="simple-text logo-normal">
       {{ __('SI DISTRIBUSI AMIA') }}
     </a>
   </div>
@@ -28,13 +28,13 @@
       </li>
       <li class = "@if ($activePage == 'sales') active @endif">
         <a href="{{ route('manager.sales.index') }}">
-          <i class="now-ui-icons education_paper"></i>
+          <i class="now-ui-icons business_chart-bar-32"></i>
           <p>{{ __('Laporan Penjualan') }}</p>
         </a>
       </li>
       <li class="@if ($activePage == 'distributor') active @endif">
         <a href="{{ route('manager.distributor.index') }}">
-          <i class="now-ui-icons business_badge"></i>
+          <i class="now-ui-icons shopping_shop"></i>
           <p> {{ __("Laporan Distributor") }} </p>
           </a>
       </li>

@@ -1,5 +1,5 @@
 @extends('layouts.app', [
-    'namePage' => 'Pengelolaan Piutang',
+    'namePage' => 'Laporan Piutang',
     'class' => 'sidebar-mini',
     'activePage' => 'user'
 ])

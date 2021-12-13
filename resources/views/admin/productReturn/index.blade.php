@@ -29,14 +29,31 @@
             </div>
           </div>
           <div class="card-body">
-          <div class="row">
-            <div class="col-6"></div>
-            <div class="col-6">
-                <div class="float-right">
-                {{ $returns->links() }}
+            <div class="row">
+              <div class="col-9"></div>
+              <div class="col-3">
+              <form method="GET" action="{{ url()->current() }}">
+                <div class="input-group no-border">
+                  <input name="keyword" type="text" value="{{ request('keyword') }}" class="form-control" placeholder="Search...">
+                  <div class="input-group-append">
+                    <div class="input-group-text" style="padding: 5px 5px 5px 0px;">
+                      <button class="btn btn-fab btn-icon btn-round btn-primary" style="margin: 0px;" type="submit">
+                      <i class="now-ui-icons ui-1_zoom-bold"></i>
+                      </button>
+                    </div>
+                  </div>
                 </div>
+              </form>
+              </div>
             </div>
-          </div>
+            <div class="row">
+              <div class="col-6"></div>
+              <div class="col-6">
+                  <div class="float-right">
+                  {{ $returns->links() }}
+                  </div>
+              </div>
+            </div>
           {{-- LIST OF PRODUCT RETURNS --}}
           <div class="table-responsive">
             <table class="table table-hover">
@@ -60,7 +77,7 @@
                             <td>{{ $r['status_return'] }}</td>
                             <td><a href="sales_transaction/{{$r->sales_transaction_id}}/show">{{ $r['sales_transaction_id'] }}</a></td>
                             <td>
-                                <a href="return/{{$r->id}}"><button type="button" class="btn btn-outline-info"><span class="fas fa-eye"></span></button></a>
+                                <a href="return/{{$r->id}}/{{$r->sales_transaction_id}}"><button type="button" class="btn btn-outline-info"><span class="fas fa-eye"></span></button></a>
                             </td>
                         </tr>
                     @endforeach

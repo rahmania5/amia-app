@@ -9,9 +9,14 @@ use Illuminate\Http\Request;
 
 class ProductionController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        $productions = Production::orderBy('tanggal_produksi', 'DESC')->paginate(15);
+        $productions = Production::when($request->keyword, function ($query) use ($request) {
+            $query
+            ->where('tanggal_produksi', 'like', "%{$request->keyword}%");
+        })->orderBy('tanggal_produksi', 'DESC')->paginate(15);
+    
+        $productions->appends($request->only('keyword'));
 
         return view('admin.production.index', compact('productions'));
     }

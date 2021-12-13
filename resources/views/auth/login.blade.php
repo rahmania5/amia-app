@@ -35,7 +35,7 @@
                 </div>
                 </div>
                 <div class="card-body ">
-                <div class="input-group no-border form-control-lg {{ $errors->has('email') ? ' has-danger' : '' }}">
+                <div class="input-group no-border form-control-lg">
                     <span class="input-group-prepend">
                     <div class="input-group-text">
                         <i class="now-ui-icons users_circle-08"></i>
@@ -48,7 +48,7 @@
                     <strong>{{ $errors->first('email') }}</strong>
                     </span>
                 @endif
-                <div class="input-group no-border form-control-lg {{ $errors->has('password') ? ' has-danger' : '' }}">
+                <div class="input-group no-border form-control-lg">
                     <div class="input-group-prepend">
                     <div class="input-group-text">
                         <i class="now-ui-icons objects_key-25"></i></i>

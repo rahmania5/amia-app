@@ -58,7 +58,7 @@
                             <td>{{ $r['status_return'] }}</td>
                             <td><a href="sales_transaction/{{$r->sales_transaction_id}}/show">{{ $r['sales_transaction_id'] }}</a></td>
                             <td>
-                                <a href="return/{{$r->id}}"><button type="button" class="btn btn-outline-info"><span class="fas fa-eye"></span></button></a>
+                                <a href="return/{{$r->id}}/{{$r->sales_transaction_id}}"><button type="button" class="btn btn-outline-info"><span class="fas fa-eye"></span></button></a>
                             </td>
                         </tr>
                     @endforeach

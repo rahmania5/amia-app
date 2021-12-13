@@ -47,6 +47,7 @@
                         <th scope="col">Metode</th>
                         <th scope="col">Jumlah</th>
                         <th scope="col">No. Transaksi</th>
+                        <th scope="col">Status</th>
                         <th scope="col">Aksi</th>
                     </tr>
                 </thead>
@@ -59,6 +60,7 @@
                             <td>{{ $p['metode_pembayaran'] }}</td>
                             <td>{{ $p['jumlah_pembayaran'] }}</td>
                             <td><a href="sales_transaction/{{$p->sales_transaction_id}}/show">{{ $p['sales_transaction_id'] }}</a></td>
+                            <td>{{ $p['status_pembayaran'] }}</td>
                             <td>
                                 <a href="payment/{{$p->id}}"><button type="button" class="btn btn-outline-info"><span class="fas fa-eye"></span></button></a>
                             </td>

@@ -10,22 +10,37 @@ use Illuminate\Http\Request;
 
 class PaymentController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        $payments = Payment::orderBy('tanggal_pembayaran', 'DESC')
-            ->latest('id')->paginate(25);
+        $payments = Payment::when($request->keyword, function ($query) use ($request) {
+            $query
+            ->where('tanggal_pembayaran', 'like', "%{$request->keyword}%")
+            ->orWhere('name', 'like', "%{$request->keyword}%")
+            ->orWhere('status_pembayaran', 'like', "%{$request->keyword}%");
+        })->join('sales_transactions', 'sales_transactions.id', '=', 'payments.sales_transaction_id')
+        ->join('distributors', 'distributors.id', '=', 'sales_transactions.distributor_id')
+        ->join('users', 'users.id', 'distributors.user_id')
+        ->select('payments.*', 'users.name')
+        ->orderBy('tanggal_pembayaran', 'DESC')->latest('payments.id')->paginate(25);
+    
+        $payments->appends($request->only('keyword'));
 
         return view('admin.payment.index', compact('payments'));
     }
 
-    public function loanIndex()
+    public function loanIndex(Request $request)
     {
-        $loans = Distributor::join('users', 'users.id', '=', 'distributors.user_id')
-            ->join('sales_transactions', 'distributors.id', '=', 'sales_transactions.distributor_id')
-            ->where('jenis_pembayaran', 'Utang')
-            ->select('users.name', 'distributors.alamat', 'distributors.id')
-            ->groupBy('distributors.id')
-            ->orderBy('name')->paginate(25);
+        $loans = Distributor::when($request->keyword, function ($query) use ($request) {
+            $query
+            ->where('name', 'like', "%{$request->keyword}%");
+        })->join('users', 'users.id', '=', 'distributors.user_id')
+        ->join('sales_transactions', 'distributors.id', '=', 'sales_transactions.distributor_id')
+        ->where('jenis_pembayaran', 'Utang')
+        ->select('users.name', 'distributors.alamat', 'distributors.id')
+        ->groupBy('distributors.id')
+        ->orderBy('name')->paginate(25);
+    
+        $loans->appends($request->only('keyword'));
 
         return view('admin.loan.index', compact('loans'));
     }
@@ -74,6 +89,7 @@ class PaymentController extends Controller
         $payment->metode_pembayaran = $request->metode_pembayaran;
         $payment->tanggal_pembayaran = $request->tanggal_pembayaran;
         $payment->jumlah_pembayaran = $request->jumlah_pembayaran;
+        $payment->status_pembayaran = 'Sudah dikonfirmasi';
         $payment->keterangan = $request->keterangan;
 
         if ($request->metode_pembayaran == 'Transfer') {
@@ -90,7 +106,6 @@ class PaymentController extends Controller
         }
 
         $salesTransaction = SalesTransaction::findOrFail($request->sales_transaction_id);
-        // $distributor = Distributor::findOrFail($salesTransaction->distributor_id);
         
         if ($payment->save()) {
             if ($salesTransaction->status == "Selesai") {
@@ -99,9 +114,6 @@ class PaymentController extends Controller
                 $salesTransaction->sisa_utang = $salesTransaction->total_transaksi - $payment->jumlah_pembayaran;
                 $salesTransaction->status = "Menunggu dikirim";
             }
-            // // mengurangi sisa uang return
-            // $distributor->sisa_uang_return = 0;
-            // $distributor->save();
             $salesTransaction->save();
         }
             
@@ -114,6 +126,9 @@ class PaymentController extends Controller
         $salesTransaction = SalesTransaction::findOrFail($salesTransactionId);
         $payment = Payment::findOrFail($paymentId);
         
+        $payment->status_pembayaran = 'Sudah dikonfirmasi';
+        $payment->save();
+
         $salesTransaction->status = "Menunggu dikirim";
         $salesTransaction->sisa_utang = $salesTransaction->total_transaksi - $payment->jumlah_pembayaran;
         $salesTransaction->save();
@@ -127,6 +142,9 @@ class PaymentController extends Controller
         $salesTransaction = SalesTransaction::findOrFail($salesTransactionId);
         $payment = Payment::findOrFail($paymentId);
 
+        $payment->status_pembayaran = 'Sudah dikonfirmasi';
+        $payment->save();
+        
         $salesTransaction->sisa_utang = $salesTransaction->sisa_utang - $payment->jumlah_pembayaran;
         $salesTransaction->save();
 

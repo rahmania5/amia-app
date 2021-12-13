@@ -4,17 +4,23 @@ namespace App\Http\Controllers\Manager;
 
 use App\Http\Controllers\Controller;
 use App\Models\Distributor;
+use Illuminate\Http\Request;
 
 class LoanReportController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        $loans = Distributor::join('users', 'users.id', '=', 'distributors.user_id')
-            ->join('sales_transactions', 'distributors.id', '=', 'sales_transactions.distributor_id')
-            ->where('jenis_pembayaran', 'Utang')
-            ->select('users.name', 'distributors.alamat', 'distributors.id')
-            ->groupBy('distributors.id')
-            ->orderBy('name')->paginate(25);
+        $loans = Distributor::when($request->keyword, function ($query) use ($request) {
+            $query
+            ->where('name', 'like', "%{$request->keyword}%");
+        })->join('users', 'users.id', '=', 'distributors.user_id')
+        ->join('sales_transactions', 'distributors.id', '=', 'sales_transactions.distributor_id')
+        ->where('jenis_pembayaran', 'Utang')
+        ->select('users.name', 'distributors.alamat', 'distributors.id')
+        ->groupBy('distributors.id')
+        ->orderBy('name')->paginate(25);
+    
+        $loans->appends($request->only('keyword'));
 
         return view('manager.loan.index', compact('loans'));
     }

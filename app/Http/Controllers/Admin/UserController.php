@@ -14,9 +14,14 @@ use Illuminate\Support\Facades\Hash;
 
 class UserController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        $users = User::orderBy('role', 'DESC')->orderBy('name')->paginate(15);
+        $users = User::when($request->keyword, function ($query) use ($request) {
+            $query
+            ->where('name', 'like', "%{$request->keyword}%");
+        })->orderBy('role', 'DESC')->orderBy('name')->paginate(15);
+    
+        $users->appends($request->only('keyword'));
 
         return view('admin.user.index', compact('users'));
     }
