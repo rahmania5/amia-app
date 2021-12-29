@@ -31,8 +31,10 @@ class DeliveryDetailController extends Controller
         $salesTransaction = SalesTransaction::findOrfail($salesTransactionId);
 
         // to get return data
-        $returnDetails = ProductReturnDetail::join('sales_transaction_details', 'sales_transaction_details.id', 'product_return_details.sales_transaction_detail_id')
+        $returnDetails = ProductReturnDetail::join('sales_transaction_details', 'sales_transaction_details.id', '=', 'product_return_details.sales_transaction_detail_id')
+            ->join('product_returns', 'product_returns.id', '=', 'product_return_details.product_return_id')
             ->where('sales_transaction_id', $salesTransactionId)
+            ->where('status_return', 'Diterima')
             ->get();
 
         // $goods = SalesTransactionDetail::join('goods', 'goods.id', 'sales_transaction_details.goods_id')

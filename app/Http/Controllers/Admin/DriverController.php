@@ -24,11 +24,13 @@ class DriverController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'nama_driver'=>'required'
+            'nama_driver'=>'required',
+            'nik'=>'required|unique:drivers'
         ]);
 
     	$driver = new Driver;
         $driver->nama_driver = $request->nama_driver;
+        $driver->nik = $request->nik;
         $driver->save();
             
         return redirect()->route('driver.index')->with('success', 'Data created successfully.');
@@ -46,10 +48,12 @@ class DriverController extends Controller
         $driver = Driver::findOrFail($id);
 
         $request->validate([
-            'nama_driver'=>'required'
+            'nama_driver'=>'required',
+            'nik'=>'required|unique:drivers,nik,'.$id
         ]);
 
     	$driver->nama_driver = $request->nama_driver;
+        $driver->nik = $request->nik;
 
         if ($driver->save()) {
             return redirect()->route('driver.index')->with('success', 'Data updated successfully.');

@@ -44,6 +44,14 @@
                             {{ Form::text('status_return', null, ['class' => 'form-control-plaintext', 'readonly' => 'readonly']) }}
                             </div>
                         </div>
+                        @if ($return->status_return == "Ditolak")
+                        <div class="form-group row">
+                            <p class="col-sm-3 col-form-label">Keterangan</p>
+                            <div class="col-sm-9">
+                            {{ Form::text('keterangan', null, ['class' => 'form-control-plaintext', 'readonly' => 'readonly']) }}
+                            </div>
+                        </div>
+                        @endif
                     </div>
                 </div>
                 <div class="card">
@@ -128,11 +136,37 @@
                         <form method="POST" action="{{ route('admin.return.decline', $return->id) }}">
                         {{ csrf_field() }}
                         <div class="text-right">
-                            <input type="submit" formaction="{{ route('admin.return.decline', $return->id) }}" value="Tolak Pengajuan Return" class="btn btn-danger btn-round" onclick="return confirmDecline()">   
+                            <input type="button" data-toggle="modal" data-target="#inputKeterangan" value="Tolak Pengajuan Return" class="btn btn-danger btn-round">   
                             <input type="submit" formaction="{{ route('admin.return.confirm', ['id'=>$return->id, 'salesTransactionId'=>$salesTransaction->id]) }}" value="Terima Pengajuan Return" class="btn btn-info btn-round" onclick="return confirmAccept()">
                         </div>
                         </form>
                         @endif
+                    </div>
+                    <!-- Input Keterangan -->
+                    <div class="modal fade" id="inputKeterangan" tabindex="-1" role="dialog" aria-labelledby="inputModal" aria-hidden="true">
+                        <div class="modal-dialog" role="document">
+                            <form method="post" action="{{ route('admin.return.decline', $return->id) }}">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title" id="inputModal">Keterangan Alasan Return Ditolak</h5>
+                                    </div>
+                                    <div class="modal-body">
+                                        {{ csrf_field() }}
+            
+                                        <div class="form-group row">
+                                            <p class="col-sm-3 col-form-label">Keterangan</p>
+                                            <div class="col-sm-9">
+                                            {{ Form::text('keterangan', 'Alasan ditolak: ', ['class' => 'form-control', 'name' => 'keterangan', 'placeholder' => 'ex: Barang tidak kedaluwarsa']) }}
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                        <button type="submit" class="btn btn-info" onclick="return confirmDecline()">Simpan</button>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
                     </div>
                 </div>
             </div>

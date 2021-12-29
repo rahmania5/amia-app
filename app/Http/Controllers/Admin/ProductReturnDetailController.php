@@ -69,10 +69,11 @@ class ProductReturnDetailController extends Controller
         return redirect()->route('admin.return.index')->with('success', 'Return submitted successfully.');
     }
 
-    public function declineReturn($id)
+    public function declineReturn($id, Request $request)
     {
         $return = ProductReturn::findOrFail($id);
         $return->status_return = 'Ditolak';
+        $return->keterangan = $request->keterangan;
         $return->save();
 
         return redirect()->route('admin.return.index')->with('success', 'Product return declined successfully.');

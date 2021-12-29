@@ -30,7 +30,7 @@ class GoodsController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'nama_barang'=>'required',
+            'nama_barang'=>'required|unique:goods',
             'stok_barang'=>'required',
             'harga_barang'=>'required'
         ]);
@@ -56,7 +56,7 @@ class GoodsController extends Controller
         $goods = Goods::findOrFail($id);
 
         $request->validate([
-            'nama_barang'=>'required',
+            'nama_barang'=>'required|unique:goods,nama_barang,'.$id,
             'stok_barang'=>'required',
             'harga_barang'=>'required'
         ]);

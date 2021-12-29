@@ -24,7 +24,7 @@ class VehicleController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'no_polisi'=>'required',
+            'no_polisi'=>'required|unique:vehicles',
             'jenis_kendaraan'=>'required'
         ]);
 
@@ -48,7 +48,7 @@ class VehicleController extends Controller
         $vehicle = Vehicle::findOrFail($id);
 
         $request->validate([
-            'no_polisi'=>'required',
+            'no_polisi'=>'required|unique:vehicles,no_polisi,'.$id,
             'jenis_kendaraan'=>'required'
         ]);
 

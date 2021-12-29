@@ -8,13 +8,21 @@
   <div class="panel-header panel-header-sm">
   </div>
     <div class="content">
-        @if ($errors->any())
+    @if ($errors->any())
             <div class="alert alert-danger" role="alert">
                 <ul>
                     @foreach ($errors->all() as $error)
                         <li>{{ $error }}</li>
                     @endforeach
                 </ul>
+            </div>
+        @elseif (session('success'))
+            <div class="alert alert-success" role="alert">
+            {{ session('success') }}
+            </div>
+        @elseif (session('error'))
+            <div class="alert alert-danger" role="alert">
+            {{ session('error') }}
             </div>
         @endif
         <div class="row">

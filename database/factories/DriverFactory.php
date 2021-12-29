@@ -14,7 +14,8 @@ class DriverFactory extends Factory
     public function definition()
     {
         return [
-            'nama_driver' => $this->faker->name($gender = 'male')
+            'nama_driver' => $this->faker->name($gender = 'male'),
+            'nik' => $this->faker->numerify('################'),
         ];
     }
 }

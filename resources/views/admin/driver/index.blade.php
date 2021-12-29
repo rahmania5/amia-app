@@ -47,6 +47,7 @@
                     <tr>
                         <th scope="col">No</th>
                         <th scope="col">Nama Driver</th>
+                        <th scope="col">NIK</th>
                         <th scope="col">Aksi</th>
                     </tr>
                 </thead>
@@ -56,6 +57,7 @@
                         <tr>
                             <td> {{ $loop->iteration + $drivers->firstItem() - 1 }} </td>
                             <td>{{ $d['nama_driver'] }}</td>
+                            <td>{{ $d['nik'] }}</td>
                             <td>
                                 <form method="POST" action="driver/{{$d->id}}">
                                 <a href="driver/{{$d->id}}/edit"><button type="button" class="btn btn-outline-warning"><span class="fas fa-edit"></span></button></a>

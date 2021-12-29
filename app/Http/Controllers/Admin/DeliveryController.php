@@ -9,6 +9,7 @@ use App\Models\Driver;
 use App\Models\Vehicle;
 use App\Models\SalesTransaction;
 use Illuminate\Http\Request;
+use Illuminate\Validation\Rule;
 
 class DeliveryController extends Controller
 {
@@ -35,20 +36,38 @@ class DeliveryController extends Controller
 
     public function store(Request $request)
     {
+        $delivery = new Delivery;
+        $driverId = $delivery->driver_id = $request->driver_id;
+        $vehicleId = $delivery->vehicle_id = $request->vehicle_id;
+        $tanggal = $delivery->tanggal_pengantaran = $request->tanggal_pengantaran;
+        $jamBerangkat = $delivery->jam_berangkat = $request->jam_berangkat;
+        $delivery->jam_diterima = $request->jam_diterima;
+
         $request->validate([
-            'driver_id' => 'required',
-            'vehicle_id' => 'required',
+            'driver_id' => [
+                'required',
+                Rule::unique('deliveries')->where(function ($query) use($driverId, $tanggal, $jamBerangkat) {
+                    return $query->where('driver_id', $driverId)
+                    ->where('tanggal_pengantaran', $tanggal)
+                    ->where('jam_berangkat', $jamBerangkat);
+                }),
+            ],
+            'vehicle_id' => [
+                'required',
+                Rule::unique('deliveries')->where(function ($query) use($vehicleId, $tanggal, $jamBerangkat) {
+                    return $query->where('vehicle_id', $vehicleId)
+                    ->where('tanggal_pengantaran', $tanggal)
+                    ->where('jam_berangkat', $jamBerangkat);
+                }),
+            ],
             'tanggal_pengantaran' => 'required',
             'jam_berangkat' => 'required',
             'sales_transaction_id' => 'required',
+        ],
+        [
+            'driver_id.unique' => 'You cannot input the same driver at the same leaving time.',
+            'vehicle_id.unique' => 'You cannot input the same vehicle at the same leaving time.'
         ]);        
-
-        $delivery = new Delivery;
-        $delivery->driver_id = $request->driver_id;
-        $delivery->vehicle_id = $request->vehicle_id;
-        $delivery->tanggal_pengantaran = $request->tanggal_pengantaran;
-        $delivery->jam_berangkat = $request->jam_berangkat;
-        $delivery->jam_diterima = $request->jam_diterima;
 
         $salesTransaction = SalesTransaction::findOrFail($request->sales_transaction_id);
         $salesTransactionDetails = $salesTransaction->sales_transaction_detail()->get();
@@ -71,27 +90,45 @@ class DeliveryController extends Controller
     {
         $delivery = Delivery::findOrFail($id);
         $drivers = Driver::all()->pluck('nama_driver','id');
-        $vehicles = Vehicle::all()->pluck('jenis_kendaraan','id');
+        $vehicles = Vehicle::all()->pluck('no_polisi','id');
 
         return view('admin.delivery.edit', compact('delivery', 'drivers', 'vehicles'));
     }
 
     public function update(Request $request, $id)
     {
-        $delivery = Delivery::findOrFail($id);
+        $delivery = Delivery::findOrFail($id);        
+
+        $driverId = $delivery->driver_id = $request->driver_id;
+        $vehicleId = $delivery->vehicle_id = $request->vehicle_id;
+        $tanggal = $delivery->tanggal_pengantaran = $request->tanggal_pengantaran;
+        $jamBerangkat = $delivery->jam_berangkat = $request->jam_berangkat;
+        $delivery->jam_diterima = $request->jam_diterima;
 
         $request->validate([
-            'driver_id' => 'required',
-            'vehicle_id' => 'required',
+            'driver_id' => [
+                'required',
+                Rule::unique('deliveries')->where(function ($query) use($driverId, $tanggal, $jamBerangkat) {
+                    return $query->where('driver_id', $driverId)
+                    ->where('tanggal_pengantaran', $tanggal)
+                    ->where('jam_berangkat', $jamBerangkat);
+                })->ignore($id),
+            ],
+            'vehicle_id' => [
+                'required',
+                Rule::unique('deliveries')->where(function ($query) use($vehicleId, $tanggal, $jamBerangkat) {
+                    return $query->where('vehicle_id', $vehicleId)
+                    ->where('tanggal_pengantaran', $tanggal)
+                    ->where('jam_berangkat', $jamBerangkat);
+                })->ignore($id),
+            ],
             'tanggal_pengantaran' => 'required',
             'jam_berangkat' => 'required'
-        ]);        
-
-        $delivery->driver_id = $request->driver_id;
-        $delivery->vehicle_id = $request->vehicle_id;
-        $delivery->tanggal_pengantaran = $request->tanggal_pengantaran;
-        $delivery->jam_berangkat = $request->jam_berangkat;
-        $delivery->jam_diterima = $request->jam_diterima;
+        ],
+        [
+            'driver_id.unique' => 'You cannot input the same driver at the same leaving time.',
+            'vehicle_id.unique' => 'You cannot input the same vehicle at the same leaving time.'
+        ]);
 
         if ($delivery->save()) {
             return redirect()->route('delivery.show', ['id'=>$delivery->id, 'action'=>'show'])

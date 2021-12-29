@@ -25,15 +25,18 @@
                 </div>
             </div>
         </div>
+        <div class="col-md-10 ml-auto mr-auto">
+            <div class="card card-login card-plain">
+                <div class="card-header text-center">
+                    <h5 class="card-title">{{ __('SISTEM INFORMASI') }}</h5>
+                    <h5 class="card-title">{{ __('PENGELOLAAN DISTRIBUSI AIR MINUM DALAM KEMASAN (AMDK) AMIA') }}</h5>
+                </div>
+            </div>
+        </div>
         <div class="col-md-4 ml-auto mr-auto">
             <form role="form" method="POST" action="{{ route('login') }}">
                 @csrf
             <div class="card card-login card-plain">
-                <div class="card-header ">
-                <div class="logo-container">
-                    <img src="{{ asset('assets/img/now-logo.png') }}" alt="">
-                </div>
-                </div>
                 <div class="card-body ">
                 <div class="input-group no-border form-control-lg">
                     <span class="input-group-prepend">

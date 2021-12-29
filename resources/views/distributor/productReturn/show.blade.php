@@ -44,6 +44,14 @@
                             {{ Form::text('status_return', null, ['class' => 'form-control-plaintext', 'readonly' => 'readonly']) }}
                             </div>
                         </div>
+                        @if ($return->status_return == "Ditolak")
+                        <div class="form-group row">
+                            <p class="col-sm-3 col-form-label">Keterangan</p>
+                            <div class="col-sm-9">
+                            {{ Form::text('keterangan', null, ['class' => 'form-control-plaintext', 'readonly' => 'readonly']) }}
+                            </div>
+                        </div>
+                        @endif
                     </div>
                 </div>
                 <div class="card">
